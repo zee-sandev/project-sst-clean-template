@@ -1,0 +1,36 @@
+{
+  "name": "sst-clean-template",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "resources/*"
+  ],
+  "scripts": {
+    "dev": "sst dev",
+    "build": "sst build",
+    "deploy": "sst deploy",
+    "remove": "sst remove",
+    "console": "sst console",
+    "typechecking": "tsc --noEmit",
+    "prepare": "husky",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+  },
+  "keywords": [],
+  "author": "zee-sandev",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
+    "husky": "^9.1.4",
+    "prettier": "^3.3.3",
+    "pretty-quick": "^4.0.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "sst": "^3.0.42"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx pretty-quick --staged"
+    }
+  }
+}
