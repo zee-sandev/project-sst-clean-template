@@ -9,9 +9,7 @@ export default $config({
     }
   },
   async run() {
-    const { web } = await import(
-      '@/resources/infrastructure/sst/next-app.infra'
-    )
+    const { web } = await import('@Resources/Infrastructure/sst/next-app.infra')
     return {
       WebURL: web.url,
       WebURN: web.urn
