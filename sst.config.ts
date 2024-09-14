@@ -1,5 +1,7 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
+import '@Resources/Core/types/global'
+
 export default $config({
   app(input) {
     return {
@@ -9,7 +11,7 @@ export default $config({
     }
   },
   async run() {
-    const { web } = await import('@Resources/Infrastructure/sst/next-app.infra')
+    const { web } = await import('@/resources/Infrastructure/sst/nextApp.infra')
     return {
       WebURL: web.url,
       WebURN: web.urn
