@@ -12,14 +12,15 @@ export default $config({
   },
   async run() {
     const { web } = await import('@/resources/Infrastructure/sst/nextApp.infra')
-    const { userPool } = await import(
-      '@Resources/Infrastructure/sst/Cognito/userPool.infra'
+    const { userPool, userPoolWebClient } = await import(
+      '@/resources/Infrastructure/sst/Cognito/cognito.infra'
     )
     return {
       WebURL: web.url,
       WebURN: web.urn,
       userPoolId: userPool.id,
-      userPoolArn: userPool.arn
+      userPoolArn: userPool.arn,
+      userPoolWebClientId: userPoolWebClient.id
     }
   }
 })
