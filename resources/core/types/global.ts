@@ -9,3 +9,9 @@ global.asyncGetUtilOutput = async <T>(output: $util.Output<T>): Promise<T> => {
     })
   })
 }
+
+global.asyncAllGetUtilOutput = async <T>(
+  outputs: $util.Output<T>[]
+): Promise<T[]> => {
+  return Promise.all(outputs.map((output) => asyncGetUtilOutput(output)))
+}

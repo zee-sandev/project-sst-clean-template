@@ -5,4 +5,8 @@ declare global {
   export import $lodash = _
   // promise function
   export function asyncGetUtilOutput<T>(output: $util.Output<T>): Promise<T>
+
+  export function asyncAllGetUtilOutput<T>(
+    outputs: $util.Output<T>[]
+  ): Promise<T[]>
 }
