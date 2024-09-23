@@ -1,7 +1,7 @@
 import IdentityPool from './identityPool.infra'
 
 const { userPool, userPoolWebClient } = await import(
-  '@Resources/Infrastructure/sst/Cognito/userPool.infra'
+  '@Resources/infrastructure/sst/cognito/userPool.infra'
 )
 
 const identityPool = new IdentityPool(userPool, userPoolWebClient.id)

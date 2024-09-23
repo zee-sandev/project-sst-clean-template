@@ -5,7 +5,7 @@ const USER_POOL_NAME = 'userPool'
 const CLIENT_NAME = 'webClient'
 
 // Define the URLs for the user pool
-const CALLBACK_URLS = ['http://localhost:3000/callback']
+const CALLBACK_URLS = ['http://localhost:3000/api/auth/callback/cognito']
 const LOGOUT_URLS = ['http://localhost:3000/logout']
 
 /*
@@ -22,6 +22,8 @@ const userPool: sst.aws.CognitoUserPool = new sst.aws.CognitoUserPool(
     usernames: ['email']
   }
 )
+
+//Set up IdP
 const googleClientId = new sst.Secret('GoogleClientId').value
 const googleClientSecret = new sst.Secret('GoogleClientSecret').value
 const googleIdP: UserPoolIdentityProvider = new GoogleIdentityProvider(
@@ -38,7 +40,8 @@ const userPoolWebClient = userPool.addClient(CLIENT_NAME, {
       allowedOauthFlows: ALLOWED_OAUTH_FLOWS,
       allowedOauthScopes: ALLOWED_OAUTH_SCOPES,
       callbackUrls: CALLBACK_URLS,
-      logoutUrls: LOGOUT_URLS
+      logoutUrls: LOGOUT_URLS,
+      allowedOauthFlowsUserPoolClient: true
       // supportedIdentityProviders: ['COGNITO','GOOGLE']
     }
   }
