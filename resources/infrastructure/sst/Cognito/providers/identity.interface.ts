@@ -3,19 +3,15 @@ export default abstract class UserPoolIdentityProvider {
   protected _providerName!: string
   protected _userPool!: sst.aws.CognitoUserPool
 
-  constructor(userPool: sst.aws.CognitoUserPool)
   constructor(
-    userPool: sst.aws.CognitoUserPool,
     clientId: $util.Output<string>,
     clientSecret: $util.Output<string>
   )
 
   constructor(
-    userPool: sst.aws.CognitoUserPool,
     clientId?: $util.Output<string>,
     clientSecret?: $util.Output<string>
   ) {
-    this._userPool = userPool
     this._providerArgs = {
       // default amazon provider
       type: 'amazon',
@@ -29,6 +25,18 @@ export default abstract class UserPoolIdentityProvider {
         username: 'sub'
       }
     }
+  }
+
+  public get userPool(): sst.aws.CognitoUserPool {
+    return this._userPool
+  }
+
+  public set userPool(userPool: sst.aws.CognitoUserPool) {
+    this._userPool = userPool
+  }
+
+  public get providerName(): string {
+    return this._providerName
   }
 
   public addProvider(): void {

@@ -1,26 +1,23 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-import '@Resources/Core/types/global'
+import '@Resources/core/types/global'
+
+import setupSST from './resources/infrastructure/sst'
 
 export default $config({
   app(input) {
     return {
       name: 'sst-clean-template',
       removal: input?.stage === 'production' ? 'retain' : 'remove',
-      home: 'aws'
+      home: 'aws',
+      providers: {
+        aws: {
+          version: '6.52.0'
+        }
+      }
     }
   },
   async run() {
-    const { web } = await import('@/resources/Infrastructure/sst/nextApp.infra')
-    const { userPool, userPoolWebClient } = await import(
-      '@/resources/Infrastructure/sst/Cognito/cognito.infra'
-    )
-    return {
-      WebURL: web.url,
-      WebURN: web.urn,
-      userPoolId: userPool.id,
-      userPoolArn: userPool.arn,
-      userPoolWebClientId: userPoolWebClient.id
-    }
+    return await setupSST()
   }
 })

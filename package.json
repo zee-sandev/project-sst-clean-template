@@ -9,7 +9,7 @@
     "dev": "sst dev",
     "build": "sst build",
     "deploy": "sst deploy",
-    "remove": "sst remove",
+    "remove": "./delete_user_pool_domain.sh && sst remove",
     "console": "sst console",
     "typechecking": "tsc --noEmit",
     "prepare": "husky",
@@ -19,6 +19,7 @@
   "author": "zee-sandev",
   "license": "ISC",
   "devDependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.658.1",
     "@tsconfig/node22": "^22.0.0",
     "@types/lodash": "^4.17.7",
     "husky": "^9.1.4",
@@ -28,7 +29,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "sst": "^3.0.42"
+    "sst": "^3.1.35"
   },
   "husky": {
     "hooks": {

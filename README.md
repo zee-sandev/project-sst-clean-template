@@ -23,3 +23,29 @@ test start project
 ```
 pnpm dev
 ```
+
+### Step 4
+
+install jq for each operating system
+
+#### For Ubuntu/Debian-based systems:
+
+```
+sudo apt-get install jq
+```
+
+#### For macOS:
+
+```
+brew install jq
+```
+
+#### For CentOS/RHEL-based systems:
+
+```
+sudo yum install jq
+```
+
+#### For Windows:
+
+Download the jq executable from the official jq releases page. After downloading, you can add the directory containing jq.exe to your system's PATH.
