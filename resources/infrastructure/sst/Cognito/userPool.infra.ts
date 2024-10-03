@@ -3,15 +3,6 @@ import {
   CognitoIdentityProviderClient,
   DescribeUserPoolDomainCommand
 } from '@aws-sdk/client-cognito-identity-provider'
-import {
-  LOCAL_CALLBACK_URLS,
-  LOCAL_LOGOUT_URLS,
-  ALLOWED_OAUTH_FLOWS,
-  ALLOWED_OAUTH_SCOPES,
-  USER_POOL_DOMAIN,
-  PROD_CALLBACK_URLS,
-  PROD_LOGOUT_URLS
-} from '../config/userPool.config'
 import { CognitoUserPoolClient } from '@/.sst/platform/src/components/aws/cognito-user-pool-client'
 
 export default class UserPool {
@@ -136,7 +127,7 @@ export default class UserPool {
         {
           transform: {
             client: {
-              generateSecret: true,
+              generateSecret: false,
               allowedOauthFlows: this._oauthFlows,
               allowedOauthScopes: this._oauthScopes,
               callbackUrls: this._oauthCallbackUrl,

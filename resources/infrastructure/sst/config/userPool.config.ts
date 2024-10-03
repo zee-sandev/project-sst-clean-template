@@ -1,13 +1,11 @@
 import { LOCAL_DOMAIN_FULL, PROD_DOMAIN } from './web.config'
 
 // Define the URLs for the user pool
-const LOCAL_CALLBACK_URLS = [
-  `http://${LOCAL_DOMAIN_FULL}/api/auth/callback/cognito`
-]
-const LOCAL_LOGOUT_URLS = [`http://${LOCAL_DOMAIN_FULL}/logout`]
+const LOCAL_CALLBACK_URLS = [`https://${LOCAL_DOMAIN_FULL}/`]
+const LOCAL_LOGOUT_URLS = [`https://${LOCAL_DOMAIN_FULL}/logout`]
 
-const PROD_CALLBACK_URLS = [`http://${PROD_DOMAIN}/api/auth/callback/cognito`]
-const PROD_LOGOUT_URLS = [`http://${PROD_DOMAIN}/logout`]
+const PROD_CALLBACK_URLS = [`https://${PROD_DOMAIN}/`]
+const PROD_LOGOUT_URLS = [`https://${PROD_DOMAIN}/logout`]
 
 // Define resources names
 const USER_POOL_NAME = 'userPool'

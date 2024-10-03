@@ -16,6 +16,7 @@ interface SetupSSTReturn {
 
 interface CognitoOutput {
   userPoolInstance: sst.aws.CognitoUserPool
+  identityPoolInstance: sst.aws.CognitoIdentityPool
   userPoolWebClient: CognitoUserPoolClient
   userPoolDomain: aws.cognito.UserPoolDomain
   poolId: string
@@ -24,6 +25,7 @@ interface CognitoOutput {
   poolDomain: string
   cognitoIssuer: string
   authDomain: string
+  identityPoolId: string
 }
 
 interface WebAppOutput {
@@ -32,20 +34,26 @@ interface WebAppOutput {
 }
 
 async function outputCognito(region: string): Promise<CognitoOutput> {
-  const { userPoolInstance, userPoolWebClient, userPoolDomain } =
-    await setupCognito(region)
-  const [poolId, clientId, clientSecret, poolDomain] =
+  const {
+    userPoolInstance,
+    userPoolWebClient,
+    cognitoIdentityPool,
+    userPoolDomain
+  } = await setupCognito(region)
+  const [poolId, clientId, clientSecret, poolDomain, identityPoolId] =
     await asyncAllGetUtilOutput([
       userPoolInstance.id,
       userPoolWebClient.id,
       userPoolWebClient.secret,
-      userPoolDomain.domain
+      userPoolDomain.domain,
+      cognitoIdentityPool.id
     ])
 
   const cognitoIssuer = `https://cognito-idp.${region}.amazonaws.com/${poolId}`
   const authDomain = `https://${poolDomain}.auth.${region}.amazoncognito.com`
   return {
     userPoolInstance,
+    identityPoolInstance: cognitoIdentityPool,
     userPoolWebClient,
     userPoolDomain,
     poolId,
@@ -53,7 +61,8 @@ async function outputCognito(region: string): Promise<CognitoOutput> {
     clientSecret,
     poolDomain,
     cognitoIssuer,
-    authDomain
+    authDomain,
+    identityPoolId
   }
 }
 
@@ -87,7 +96,8 @@ async function outputWebApp(
       COGNITO_CLIENT_ID: cognitoOutput.clientId,
       COGNITO_CLIENT_SECRET: cognitoOutput.clientSecret,
       COGNITO_ISSUER: cognitoOutput.cognitoIssuer,
-      COGNITO_DOMAIN: cognitoOutput.authDomain
+      COGNITO_DOMAIN: cognitoOutput.authDomain,
+      COGNITO_IDENTITY_POOL_ID: cognitoOutput.identityPoolId
     },
     permissions: []
   })

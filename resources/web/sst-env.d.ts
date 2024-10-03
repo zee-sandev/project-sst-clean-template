@@ -9,6 +9,7 @@ declare module 'sst' {
       COGNITO_CLIENT_ID: string
       COGNITO_CLIENT_SECRET: string
       COGNITO_DOMAIN: string
+      COGNITO_IDENTITY_POOL_ID: string
       COGNITO_ISSUER: string
       COGNITO_POOL_ID: string
       type: 'sst.sst.Linkable'

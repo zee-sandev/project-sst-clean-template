@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { useRouter } from 'next/navigation'
 import {
   Card,
   CardContent,
@@ -14,10 +12,20 @@ import {
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
+import SignInForm from './components/signIn.form'
+import SignUpForm from './components/signUp.form'
+import {
+  handleResendSignUpCode,
+  handleSignIn,
+  handleSignInWithRedirect,
+  handleSignUp
+} from '@/lib/auth' // Import the wrapper functions
+import { TProvider } from '@/lib/auth/types'
 // import { Google } from "lucide-react"
 
 export default function Auth() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const router = useRouter()
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -26,14 +34,26 @@ export default function Auth() {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    // Sign in
-    console.log('Implement login')
+    // Sign in using the wrapper function
+    try {
+      const signInResult = await handleSignIn({ username: email, password }) // Use the handleSignIn function
+      if (signInResult.isSignedIn) {
+        // Check if sign in was successful
+        router.push('/') // Redirect to home page after sign in
+      }
+    } catch (error) {
+      console.error(error)
+    }
     setIsLoading(false)
   }
 
-  const handleGoogleSignIn = async () => {
+  const handleProviderSignIn = async (provider: TProvider) => {
     setIsLoading(true)
-    console.log('Implement login with google')
+    try {
+      await handleSignInWithRedirect(provider) // Call the sign-in with redirect function
+    } catch (error) {
+      console.error('Error during provider sign in:', error)
+    }
     setIsLoading(false)
   }
 
@@ -51,8 +71,23 @@ export default function Auth() {
       return
     }
 
-    // Sign up
-    console.log('Implement register')
+    // Sign up using the wrapper function
+    try {
+      const signUpResult = await handleSignUp(
+        { username: email, password },
+        { email }
+      ) // Use the handleSignUp function
+      console.log('signUpResult', signUpResult)
+      if (signUpResult.nextStep.signUpStep === 'CONFIRM_SIGN_UP') {
+        await handleResendSignUpCode(email)
+        // If the user is already confirmed, redirect to login
+        router.push(
+          `/auth/confirm-signup?username=${encodeURIComponent(email)}`
+        )
+      }
+    } catch (error) {
+      console.error(error)
+    }
 
     setIsLoading(false)
   }
@@ -70,121 +105,18 @@ export default function Auth() {
             <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
           <TabsContent value="login">
-            <form onSubmit={handleSubmit}>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="login-email">Email</Label>
-                  <Input
-                    id="login-email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="login-password">Password</Label>
-                  <Input
-                    id="login-password"
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    required
-                  />
-                </div>
-              </div>
-              <Button
-                className="w-full mt-4"
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Logging in...' : 'Login'}
-              </Button>
-            </form>
-            <div className="relative my-4">
-              <Separator />
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-            >
-              {/* <Google className="mr-2 h-4 w-4" /> */}
-              {isLoading ? 'Signing in...' : 'Sign in with Google'}
-            </Button>
+            <SignInForm
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+              handleGoogleSignIn={() => handleProviderSignIn('GOOGLE')} // Pass provider name
+            />
           </TabsContent>
           <TabsContent value="register">
-            <form onSubmit={handleRegister}>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="register-name">Name</Label>
-                  <Input
-                    id="register-name"
-                    name="name"
-                    placeholder="Enter your name"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="register-email">Email</Label>
-                  <Input
-                    id="register-email"
-                    name="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="register-password">Password</Label>
-                  <Input
-                    id="register-password"
-                    name="password"
-                    type="password"
-                    placeholder="Create a password"
-                    required
-                  />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="register-confirm-password">
-                    Confirm Password
-                  </Label>
-                  <Input
-                    id="register-confirm-password"
-                    name="confirm-password"
-                    type="password"
-                    placeholder="Confirm your password"
-                    required
-                  />
-                </div>
-              </div>
-              <Button
-                className="w-full mt-4"
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Registering...' : 'Register'}
-              </Button>
-            </form>
-            <div className="relative my-4">
-              <Separator />
-              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-2 text-xs text-muted-foreground">
-                Or register with
-              </span>
-            </div>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={handleGoogleSignIn}
-              disabled={isLoading}
-            >
-              {/* <Google className="mr-2 h-4 w-4" /> */}
-              {isLoading ? 'Registering...' : 'Register with Google'}
-            </Button>
+            <SignUpForm
+              handleSubmit={handleRegister}
+              isLoading={isLoading}
+              handleGoogleSignIn={() => handleProviderSignIn('GOOGLE')} // Pass provider name
+            />
           </TabsContent>
         </Tabs>
       </CardContent>
