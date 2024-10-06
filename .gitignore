@@ -31,3 +31,5 @@ flattened_repo.txt
 
 
 resources/web/sst-env.d.ts
+resources/web/src/tests/gmail/credentials.json
+resources/web/src/tests/gmail/token.json

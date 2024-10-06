@@ -2,11 +2,13 @@
   "name": "application",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "playwright test && playwright show-report"
   },
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.2.19",
@@ -26,10 +28,13 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "@playwright/test": "^1.47.2",
     "@tsconfig/next": "^2.0.3",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "gmail-tester": "^1.3.8",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
