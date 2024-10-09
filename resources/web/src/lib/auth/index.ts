@@ -11,7 +11,10 @@ import {
   ConfirmSignUpOutput,
   getCurrentUser,
   fetchUserAttributes,
-  fetchAuthSession
+  fetchAuthSession,
+  deleteUser,
+  updatePassword,
+  updateUserAttributes
 } from 'aws-amplify/auth'
 import { TAuthParams, TAccount, TAttributes, TProvider } from './types'
 
@@ -38,7 +41,7 @@ export const handleSignInWithRedirect = async (
 ): Promise<void> => {
   try {
     await signInWithRedirect({
-      provider: 'Google'
+      provider
     })
   } catch (error) {
     console.error('Sign in with redirect error:', error)
@@ -141,12 +144,25 @@ export const currentAuthenticatedUser = async (): Promise<
   }
 }
 
-// import { createHmac } from 'crypto';
+export const handleDeleteUser = async (): Promise<void> => {
+  try {
+    await deleteUser()
+    console.log(`User deleted successfully.`)
+  } catch (error) {
+    console.error('Delete user error:', error)
+    throw new Error('Delete user failed. Please try again.')
+  }
+}
 
-// const getSecretHash = (username: string) => {
-//   const secret = String(process.env.COGNITO_CLIENT_SECRET);
-//   const hash = createHmac('SHA256', secret)
-//                      .update(username + String(process.env.COGNITO_CLIENT_ID))
-//                      .digest('base64');
-//   return hash;
-// }
+export const handleUpdatePassword = async (
+  newPassword: string,
+  oldPassword: string
+): Promise<void> => {
+  try {
+    await updatePassword({ newPassword, oldPassword })
+    console.log('Password updated successfully.')
+  } catch (error) {
+    console.error('Update password error:', error)
+    throw new Error('Update password failed. Please try again.')
+  }
+}
