@@ -108,14 +108,14 @@ export default function Auth() {
             <SignInForm
               handleSubmit={handleSubmit}
               isLoading={isLoading}
-              handleGoogleSignIn={() => handleProviderSignIn('GOOGLE')} // Pass provider name
+              handleGoogleSignIn={() => handleProviderSignIn('Google')} // Pass provider name
             />
           </TabsContent>
           <TabsContent value="register">
             <SignUpForm
               handleSubmit={handleRegister}
               isLoading={isLoading}
-              handleGoogleSignIn={() => handleProviderSignIn('GOOGLE')} // Pass provider name
+              handleGoogleSignIn={() => handleProviderSignIn('Google')} // Pass provider name
             />
           </TabsContent>
         </Tabs>

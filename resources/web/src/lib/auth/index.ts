@@ -1,4 +1,3 @@
-'use client'
 import {
   signIn,
   signInWithRedirect,
@@ -39,9 +38,7 @@ export const handleSignInWithRedirect = async (
 ): Promise<void> => {
   try {
     await signInWithRedirect({
-      provider: {
-        custom: provider
-      }
+      provider: 'Google'
     })
   } catch (error) {
     console.error('Sign in with redirect error:', error)
@@ -130,19 +127,16 @@ export const currentAuthenticatedUser = async (): Promise<
 > => {
   try {
     await fetchAuthSession({ forceRefresh: true })
-    const { username, userId, signInDetails } = await getCurrentUser()
+    const crrUser = await getCurrentUser()
     const userAttributes = await fetchUserAttributes()
-    console.log(`The username: ${username}`)
-    console.log(`The userId: ${userId}`)
-    console.log(`The signInDetails: ${signInDetails}`)
     const user: TAccount = {
-      username,
-      userId,
+      username: crrUser?.username,
+      userId: crrUser?.userId,
       attributes: userAttributes
     }
     return user
   } catch (err) {
-    // console.error(err);
+    console.error(err)
     return undefined
   }
 }

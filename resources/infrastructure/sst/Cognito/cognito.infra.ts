@@ -5,6 +5,7 @@ import { CognitoIdentityProviderClient } from '@aws-sdk/client-cognito-identity-
 
 //#region Import Config
 import UserPoolIdentityProvider from './providers/identity.interface'
+import { UserPoolConfig } from './types/userPool.type'
 //#endregion
 
 async function getGoogleIdentityProvider(): Promise<UserPoolIdentityProvider> {
@@ -83,26 +84,19 @@ export default async function setupCognito(region: string) {
   const userPoolInstance = userPool.userPool
   const userPoolWebClient = userPool.userPoolClient
   const userPoolDomain = userPool.userPoolDomain
+  const userPoolConfig: UserPoolConfig = {
+    userPoolDomainName: userPool.userPoolDomainName || '',
+    oauthCallbackUrl: userPool.oauthCallbackUrl || [],
+    oauthLogoutUrl: userPool.oauthLogoutUrl || [],
+    oauthScopes: userPool.oauthScopes || [],
+    oauthFlows: userPool.oauthFlows || []
+  }
 
   return {
     userPoolInstance,
     userPoolWebClient,
     cognitoIdentityPool,
-    userPoolDomain
+    userPoolDomain,
+    userPoolConfig
   }
 }
-
-// const region = await asyncGetUtilOutput(aws.getRegionOutput().name)
-// const {
-//   userPoolInstance,
-//   userPoolWebClient,
-//   cognitoIdentityPool,
-//   userPoolDomain
-// } = await setupCognito(region)
-
-// export {
-//   userPoolInstance,
-//   userPoolWebClient,
-//   cognitoIdentityPool,
-//   userPoolDomain
-// }

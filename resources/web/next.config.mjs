@@ -9,7 +9,11 @@ const nextConfig = {
     COGNITO_DOMAIN: Resource.AWS.COGNITO_DOMAIN,
     COGNITO_IDENTITY_POOL_ID: Resource.AWS.COGNITO_IDENTITY_POOL_ID,
     domain: process.env.NEXTAUTH_URL,
-    sst_domain: process.env.domain
+    sst_domain: process.env.domain,
+    OAUTH_CALLBACK_URL: Resource.AWS.OAUTH_CALLBACK_URL,
+    OAUTH_LOGOUT_URL: Resource.AWS.OAUTH_LOGOUT_URL,
+    OAUTH_SCOPES: Resource.AWS.OAUTH_SCOPES,
+    OAUTH_FLOWS: Resource.AWS.OAUTH_FLOWS
   }
 }
 

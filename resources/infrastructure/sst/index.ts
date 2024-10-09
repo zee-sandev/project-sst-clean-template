@@ -1,6 +1,7 @@
 import { CognitoUserPoolClient } from '@/.sst/platform/src/components/aws/cognito-user-pool-client'
 import setupCognito from './cognito/cognito.infra'
 import WebApp from './webApp/nextApp.infra'
+import { UserPoolConfig } from './cognito/types/userPool.type'
 
 interface SetupSSTReturn {
   WebURL: $util.Output<string>
@@ -26,6 +27,7 @@ interface CognitoOutput {
   cognitoIssuer: string
   authDomain: string
   identityPoolId: string
+  userPoolConfig: UserPoolConfig
 }
 
 interface WebAppOutput {
@@ -38,7 +40,8 @@ async function outputCognito(region: string): Promise<CognitoOutput> {
     userPoolInstance,
     userPoolWebClient,
     cognitoIdentityPool,
-    userPoolDomain
+    userPoolDomain,
+    userPoolConfig
   } = await setupCognito(region)
   const [poolId, clientId, clientSecret, poolDomain, identityPoolId] =
     await asyncAllGetUtilOutput([
@@ -50,7 +53,7 @@ async function outputCognito(region: string): Promise<CognitoOutput> {
     ])
 
   const cognitoIssuer = `https://cognito-idp.${region}.amazonaws.com/${poolId}`
-  const authDomain = `https://${poolDomain}.auth.${region}.amazoncognito.com`
+  const authDomain = `${poolDomain}.auth.${region}.amazoncognito.com`
   return {
     userPoolInstance,
     identityPoolInstance: cognitoIdentityPool,
@@ -62,7 +65,8 @@ async function outputCognito(region: string): Promise<CognitoOutput> {
     poolDomain,
     cognitoIssuer,
     authDomain,
-    identityPoolId
+    identityPoolId,
+    userPoolConfig
   }
 }
 
@@ -97,7 +101,12 @@ async function outputWebApp(
       COGNITO_CLIENT_SECRET: cognitoOutput.clientSecret,
       COGNITO_ISSUER: cognitoOutput.cognitoIssuer,
       COGNITO_DOMAIN: cognitoOutput.authDomain,
-      COGNITO_IDENTITY_POOL_ID: cognitoOutput.identityPoolId
+      COGNITO_IDENTITY_POOL_ID: cognitoOutput.identityPoolId,
+      OAUTH_CALLBACK_URL:
+        cognitoOutput.userPoolConfig.oauthCallbackUrl.join(','),
+      OAUTH_LOGOUT_URL: cognitoOutput.userPoolConfig.oauthLogoutUrl.join(','),
+      OAUTH_SCOPES: cognitoOutput.userPoolConfig.oauthScopes.join(','),
+      OAUTH_FLOWS: cognitoOutput.userPoolConfig.oauthFlows.join(',')
     },
     permissions: []
   })

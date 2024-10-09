@@ -17,7 +17,8 @@ export default class GoogleIdentityProvider extends UserPoolIdentityProvider {
       attributes: {
         email: 'email',
         name: 'name',
-        username: 'sub'
+        username: 'sub',
+        profile: 'profile'
       }
     }
   }

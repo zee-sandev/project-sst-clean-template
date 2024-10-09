@@ -62,6 +62,26 @@ export default class UserPool {
     this._resourceName = resourceName
   }
 
+  public get userPoolDomainName(): string | undefined {
+    return this._userPoolDomainName
+  }
+
+  public get oauthCallbackUrl(): string[] | undefined {
+    return this._oauthCallbackUrl
+  }
+
+  public get oauthLogoutUrl(): string[] | undefined {
+    return this._oauthLogoutUrl
+  }
+
+  public get oauthScopes(): string[] | undefined {
+    return this._oauthScopes
+  }
+
+  public get oauthFlows(): string[] | undefined {
+    return this._oauthFlows
+  }
+
   public set userPoolDomainName(userPoolDomainName: string) {
     this._userPoolDomainName = userPoolDomainName
   }

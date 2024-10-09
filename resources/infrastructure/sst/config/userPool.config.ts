@@ -1,11 +1,11 @@
 import { LOCAL_DOMAIN_FULL, PROD_DOMAIN } from './web.config'
 
 // Define the URLs for the user pool
-const LOCAL_CALLBACK_URLS = [`https://${LOCAL_DOMAIN_FULL}/`]
-const LOCAL_LOGOUT_URLS = [`https://${LOCAL_DOMAIN_FULL}/logout`]
+const LOCAL_CALLBACK_URLS = [`https://${LOCAL_DOMAIN_FULL}`]
+const LOCAL_LOGOUT_URLS = [`https://${LOCAL_DOMAIN_FULL}`]
 
-const PROD_CALLBACK_URLS = [`https://${PROD_DOMAIN}/`]
-const PROD_LOGOUT_URLS = [`https://${PROD_DOMAIN}/logout`]
+const PROD_CALLBACK_URLS = [`https://${PROD_DOMAIN}`]
+const PROD_LOGOUT_URLS = [`https://${PROD_DOMAIN}`]
 
 // Define resources names
 const USER_POOL_NAME = 'userPool'
@@ -18,7 +18,12 @@ implicit: Implicit flow (valid for single-page applications).
 client_credentials: Client credentials flow (for server-to-server communication).
 */
 const ALLOWED_OAUTH_FLOWS = ['code']
-const ALLOWED_OAUTH_SCOPES = ['email', 'openid', 'profile']
+const ALLOWED_OAUTH_SCOPES = [
+  'email',
+  'openid',
+  'profile',
+  'aws.cognito.signin.user.admin'
+]
 
 const USER_POOL_DOMAIN = `${$app.stage}-${$app.name}`
 

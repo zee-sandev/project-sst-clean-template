@@ -12,7 +12,5 @@ export type TAttributes = {
 export type TAccount = {
   username: string
   userId: string
-  attributes: FetchUserAttributesOutput
+  attributes?: FetchUserAttributesOutput
 }
-
-export type TProvider = 'COGNITO' | 'GOOGLE'
