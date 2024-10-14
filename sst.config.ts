@@ -1,8 +1,8 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-import '@Resources/core/types/global'
+import '@/src/core/types/global'
 
-import setupSST from './resources/infrastructure/sst'
+import setupSST from '@/infrastructure/sst'
 
 export default $config({
   app(input) {

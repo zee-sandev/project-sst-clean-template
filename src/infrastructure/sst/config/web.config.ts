@@ -21,7 +21,7 @@ const PROD_DOMAIN = 'clean-template'
 const PROD_CERTIFICATE_ARN =
   'arn:aws:acm:us-east-1:112233445566:certificate/3a958790-8878-4cdc-a396-06d95064cf63'
 
-const PATH = 'resources/web'
+const PATH = 'src/web'
 const PROD_DOMAIN_CONFIG: sst.aws.NextjsArgs['domain'] = {
   name: PROD_DOMAIN,
   dns: false,

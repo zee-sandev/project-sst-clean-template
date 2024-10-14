@@ -30,6 +30,6 @@ repo_structure.yaml
 flattened_repo.txt
 
 
-resources/web/sst-env.d.ts
-resources/web/src/tests/gmail/credentials.json
-resources/web/src/tests/gmail/token.json
+src/web/sst-env.d.ts
+src/web/src/tests/gmail/credentials.json
+src/web/src/tests/gmail/token.json
