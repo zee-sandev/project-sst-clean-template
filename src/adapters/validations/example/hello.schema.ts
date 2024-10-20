@@ -2,4 +2,4 @@ export const helloSchema = $z.object({
   name: $z.string()
 })
 
-export type HelloSchema = $z.infer<typeof helloSchema>
+export type HelloSchema = { input: $z.infer<typeof helloSchema> }
