@@ -31,6 +31,10 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.18.0",
+    "@tanstack/react-query-devtools": "^4.18.0",
+    "@trpc/client": "^10.45.2",
+    "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "aws-lambda": "^1.0.7",
     "inversify": "^6.0.2",

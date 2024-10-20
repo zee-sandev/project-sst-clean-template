@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import AmplifyConfigClientSide from './amplify/cognito.config'
-
 const inter = Inter({ subsets: ['latin'] })
+import { TRPCProvider } from '@/lib/providers/trpc.provider'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AmplifyConfigClientSide />
-        {children}
+        <TRPCProvider>
+          <AmplifyConfigClientSide />
+          {children}
+        </TRPCProvider>
       </body>
     </html>
   )

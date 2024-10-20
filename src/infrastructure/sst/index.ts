@@ -1,41 +1,13 @@
-import { CognitoUserPoolClient } from '@/.sst/platform/src/components/aws/cognito-user-pool-client'
 import setupCognito from './cognito/cognito.infra'
 import WebApp from './webApp/nextApp.infra'
-import { UserPoolConfig } from './cognito/types/userPool.type'
+import {
+  TCognitoOutput,
+  TWebAppOutput,
+  TSetupSSTReturn,
+  TApiOutput
+} from './types/output.type'
 
-interface SetupSSTReturn {
-  WebURL: $util.Output<string>
-  WebURN: $util.Output<string>
-  userPoolId: $util.Output<string>
-  userPoolArn: $util.Output<string>
-  userPoolWebClientId: $util.Output<string>
-  userPoolWebClientSecret: $util.Output<string>
-  userPoolDomain: string
-  issuer: string
-  cognitoDomain: string
-}
-
-interface CognitoOutput {
-  userPoolInstance: sst.aws.CognitoUserPool
-  identityPoolInstance: sst.aws.CognitoIdentityPool
-  userPoolWebClient: CognitoUserPoolClient
-  userPoolDomain: aws.cognito.UserPoolDomain
-  poolId: string
-  clientId: string
-  clientSecret: string
-  poolDomain: string
-  cognitoIssuer: string
-  authDomain: string
-  identityPoolId: string
-  userPoolConfig: UserPoolConfig
-}
-
-interface WebAppOutput {
-  NextApp: sst.aws.Nextjs
-  WebInstance: WebApp
-}
-
-async function outputCognito(region: string): Promise<CognitoOutput> {
+async function outputCognito(region: string): Promise<TCognitoOutput> {
   const {
     userPoolInstance,
     userPoolWebClient,
@@ -71,8 +43,9 @@ async function outputCognito(region: string): Promise<CognitoOutput> {
 }
 
 async function outputWebApp(
-  cognitoOutput: CognitoOutput
-): Promise<WebAppOutput> {
+  cognitoOutput: TCognitoOutput,
+  apiOutput: TApiOutput
+): Promise<TWebAppOutput> {
   const {
     LOCAL_DOMAIN_FULL,
     LOCAL_PORT,
@@ -92,7 +65,8 @@ async function outputWebApp(
     cognitoOutput.clientSecret
   )
   webInstance.setEnvironment({
-    NEXTAUTH_SECRET: nextAuthSecret.value
+    NEXTAUTH_SECRET: nextAuthSecret.value,
+    API_URL: apiOutput.apiUrl
   })
   webInstance.addLinkable('AWS', {
     properties: {
@@ -117,10 +91,21 @@ async function outputWebApp(
   }
 }
 
-export default async function setupSST(): Promise<SetupSSTReturn> {
+async function outputApi(region: string): Promise<TApiOutput> {
+  const api = await import('./apiGateway/index')
+  const apiInstance = api.apiInstance
+  const apiUrl = await asyncGetUtilOutput(apiInstance.url)
+  return {
+    apiInstance: api.apiInstance,
+    apiUrl
+  }
+}
+
+export default async function setupSST(): Promise<TSetupSSTReturn> {
   const region = await asyncGetUtilOutput(aws.getRegionOutput().name)
   const cognitoOutput = await outputCognito(region)
-  const webAppOutput = await outputWebApp(cognitoOutput)
+  const apiOutput = await outputApi(region)
+  const webAppOutput = await outputWebApp(cognitoOutput, apiOutput)
   return {
     WebURL: webAppOutput.NextApp.url,
     WebURN: webAppOutput.NextApp.urn,

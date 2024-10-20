@@ -61,7 +61,8 @@ class WebApp {
       domain: $dev ? undefined : this._domainConfig,
       dev: {
         url: this._domainName,
-        command: `next dev -p ${this._port} --experimental-https --turbo`
+        // command: `next dev -p ${this._port} --experimental-https --turbo`
+        command: `next dev -p ${this._port} --experimental-https `
       },
       environment: {
         NEXTAUTH_URL: this._domainName,
