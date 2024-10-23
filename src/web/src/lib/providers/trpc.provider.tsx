@@ -3,7 +3,7 @@ import { trpc } from '@/utils/trpc.util'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { httpBatchLink, loggerLink } from '@trpc/client'
-import superjson from 'superjson'
+import { getToken } from '../auth'
 
 // if (!process.env.NEXT_PUBLIC_TRPC_API_URL) {
 //   throw new Error("NEXT_PUBLIC_TRPC_API_URL is not set");
@@ -30,6 +30,14 @@ const trpcClient = trpc.createClient({
       fetch: async (input, init) => {
         console.log(input, init)
         return fetch(input, init)
+      },
+      headers: async () => {
+        const token = await getToken()
+        if (!token) return {}
+
+        return {
+          Authorization: token
+        }
       }
     })
   ]
