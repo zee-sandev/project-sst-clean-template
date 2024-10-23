@@ -39,10 +39,8 @@ export default async function setupApiGateway(
     properties: {
       issuer: issuer,
       clientId: clientId
-    },
-    permissions: []
+    }
   })
-
   //trpc routes
   api.get('/trpc/{proxy+}', 'src/adapters/handlers/trpc.handler')
   api.post('/trpc/{proxy+}', 'src/adapters/handlers/trpc.handler')

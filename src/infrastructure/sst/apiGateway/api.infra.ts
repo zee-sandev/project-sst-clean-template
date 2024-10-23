@@ -27,7 +27,7 @@ class APIGateway {
     handler: string,
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
-    this._api.route(`GET ${path}`, handler, auth)
+    this.addRoute(`GET`, path, handler, auth)
   }
 
   public post(
@@ -35,7 +35,7 @@ class APIGateway {
     handler: string,
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
-    this._api.route(`POST ${path}`, handler, auth)
+    this.addRoute(`POST`, path, handler, auth)
   }
 
   public put(
@@ -43,7 +43,7 @@ class APIGateway {
     handler: string,
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
-    this._api.route(`PUT ${path}`, handler, auth)
+    this.addRoute(`PUT`, path, handler, auth)
   }
 
   public delete(
@@ -51,7 +51,7 @@ class APIGateway {
     handler: string,
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
-    this._api.route(`DELETE ${path}`, handler, auth)
+    this.addRoute(`DELETE`, path, handler, auth)
   }
 
   public options(
@@ -59,7 +59,7 @@ class APIGateway {
     handler: string,
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
-    this._api.route(`OPTIONS ${path}`, handler, auth)
+    this.addRoute(`OPTIONS`, path, handler, auth)
   }
 
   public patch(
@@ -67,7 +67,7 @@ class APIGateway {
     handler: string,
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
-    this._api.route(`PATCH ${path}`, handler, auth)
+    this.addRoute(`PATCH`, path, handler, auth)
   }
   //#endregion
 
@@ -79,15 +79,17 @@ class APIGateway {
       permissions
     }: {
       properties: Record<string, any>
-      permissions: sst.aws.FunctionPermissionArgs[]
+      permissions?: sst.aws.FunctionPermissionArgs[]
     }
   ): sst.Linkable<Record<string, any>> {
-    const _permissions = permissions.map((perm) =>
-      sst.aws.permission({
-        actions: perm.actions,
-        resources: perm.resources
-      })
-    )
+    const _permissions = permissions
+      ? permissions.map((perm) =>
+          sst.aws.permission({
+            actions: perm.actions,
+            resources: perm.resources
+          })
+        )
+      : []
 
     const linkable = new sst.Linkable(linkName, {
       properties,
