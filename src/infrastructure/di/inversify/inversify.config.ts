@@ -1,6 +1,6 @@
 // src/inversify.config.ts
 import { Container } from 'inversify'
-import TRPCService from '@root/adapters/trpc'
+import TRPCService from '@root/infrastructure/providers/trpc'
 
 // Define some types
 const TYPES = {
@@ -10,4 +10,5 @@ const TYPES = {
 const container = new Container()
 // Bind the TRPCService as a singleton
 container.bind<TRPCService>(TRPCService).toSelf().inSingletonScope()
+
 export { container }

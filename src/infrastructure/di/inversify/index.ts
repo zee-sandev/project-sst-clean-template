@@ -1,5 +1,5 @@
 /// <reference path="./container.d.ts" />
-import TRPCService from '@root/adapters/trpc'
+import TRPCService from '@root/infrastructure/providers/trpc'
 import { container } from './inversify.config'
 
 // Ensure the global container is set only once

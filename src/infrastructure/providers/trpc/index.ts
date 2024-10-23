@@ -11,7 +11,7 @@ export default class TRPCService {
 
   private initializeTRPC() {
     if (!this.trpcInstance) {
-      this.trpcInstance = initTRPC.context<Context>().create<Context>()
+      this.trpcInstance = initTRPC.create<Context>()
     }
   }
 

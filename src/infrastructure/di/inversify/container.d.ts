@@ -1,5 +1,5 @@
 import { Container } from 'inversify'
-import TRPCService from '@root/adapters/trpc'
+import TRPCService from '@root/infrastructure/providers/trpc'
 import { container } from './inversify.config'
 
 declare global {

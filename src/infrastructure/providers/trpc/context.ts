@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda'
 import { CreateAWSLambdaContextOptions } from '@trpc/server/adapters/aws-lambda'
 import { APIGatewayProxyEventV2 } from 'aws-lambda'
-
+import { Resource } from 'sst'
 // created for each request
 export const createContext = ({
   event,
@@ -11,7 +11,13 @@ export const createContext = ({
 >) => {
   // console.log(event)
   // console.log(context)
-  console.log(event.headers.authorization)
+  console.log(Resource.Auth.issuer)
+  console.log(Resource.Auth.clientId)
+  console.log(event)
+  const token = event.headers.authorization
+  if (!token) {
+    throw new Error('Unauthorized')
+  }
   return {}
 } // no context
 
