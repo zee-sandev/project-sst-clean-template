@@ -13,7 +13,7 @@
     "module": "ES2022" /* Specify what module code is generated. */,
     "moduleResolution": "Node" /* Specify how TypeScript looks up a file from a given module specifier. */,
     "paths": {
-      "@/*": ["./*"],
+      "@root/*": ["./*"],
       "@root/src/*": ["./src/*"],
       "@root/core/*": ["./src/core/*"],
       "@root/infrastructure/*": ["./src/infrastructure/*"],

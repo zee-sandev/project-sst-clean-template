@@ -1,1 +1,8 @@
-export type TMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'ANY' | 'OPTIONS'
+export type TMethod =
+  | 'GET'
+  | 'POST'
+  | 'PUT'
+  | 'DELETE'
+  | 'ANY'
+  | 'OPTIONS'
+  | 'PATCH'

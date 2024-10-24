@@ -1,5 +1,6 @@
 import setupCognito from './cognito/cognito.infra'
 import WebApp from './webApp/nextApp.infra'
+import setupApiGateway from './apiGateway/index'
 import {
   TCognitoOutput,
   TWebAppOutput,
@@ -91,8 +92,11 @@ async function outputWebApp(
   }
 }
 
-async function outputApi(region: string): Promise<TApiOutput> {
-  const api = await import('./apiGateway/index')
+async function outputApi(
+  issuer: string,
+  clientId: string
+): Promise<TApiOutput> {
+  const api = await setupApiGateway(issuer, clientId)
   const apiInstance = api.apiInstance
   const apiUrl = await asyncGetUtilOutput(apiInstance.url)
   return {
@@ -104,7 +108,10 @@ async function outputApi(region: string): Promise<TApiOutput> {
 export default async function setupSST(): Promise<TSetupSSTReturn> {
   const region = await asyncGetUtilOutput(aws.getRegionOutput().name)
   const cognitoOutput = await outputCognito(region)
-  const apiOutput = await outputApi(region)
+  const apiOutput = await outputApi(
+    cognitoOutput.cognitoIssuer,
+    cognitoOutput.clientId
+  )
   const webAppOutput = await outputWebApp(cognitoOutput, apiOutput)
   return {
     WebURL: webAppOutput.NextApp.url,

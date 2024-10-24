@@ -129,7 +129,8 @@ export const currentAuthenticatedUser = async (): Promise<
   TAccount | undefined
 > => {
   try {
-    await fetchAuthSession({ forceRefresh: true })
+    fetchAuthSession({ forceRefresh: true }) // refresh the session
+    // console.log("id token", session?.tokens?.idToken?.toString()) -> this is the token
     const crrUser = await getCurrentUser()
     const userAttributes = await fetchUserAttributes()
     const user: TAccount = {
@@ -141,6 +142,16 @@ export const currentAuthenticatedUser = async (): Promise<
   } catch (err) {
     console.error(err)
     return undefined
+  }
+}
+
+export const getToken = async (): Promise<string | undefined> => {
+  try {
+    const session = await fetchAuthSession()
+    return session?.tokens?.idToken?.toString()
+  } catch (error) {
+    console.error('Error fetching auth session:', error)
+    throw new Error('Failed to retrieve token. Please try again.')
   }
 }
 

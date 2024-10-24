@@ -1,10 +1,10 @@
 import { awsLambdaRequestHandler } from '@trpc/server/adapters/aws-lambda'
-import { createContext } from '@/src/adapters/trpc/context'
+import { createContext } from '@root/infrastructure/providers/trpc/context'
 import 'reflect-metadata'
-import '@root/adapters/di/inversify/index'
 import '@root/core/types/global'
+import '@root/src/infrastructure/di/inversify/index'
 
-import { appRouter } from '@/src/adapters/routers/trpc/index.route'
+import { appRouter } from '@root/adapters/routers/trpc/index.route'
 
 export const handler = awsLambdaRequestHandler({
   router: appRouter,
