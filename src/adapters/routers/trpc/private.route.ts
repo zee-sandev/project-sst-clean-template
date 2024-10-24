@@ -5,5 +5,8 @@ if (!t) {
 }
 
 export const privateRouter = t.router({
-  hello: t.procedure.query(() => 'Hello World')
+  hello: t.procedure.query(({ ctx }) => {
+    console.log(ctx.Auth)
+    return 'Hello World'
+  })
 })

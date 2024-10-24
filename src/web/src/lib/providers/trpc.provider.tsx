@@ -28,7 +28,6 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url: 'https://qyh93ki885.execute-api.us-east-1.amazonaws.com/trpc',
       fetch: async (input, init) => {
-        console.log(input, init)
         return fetch(input, init)
       },
       headers: async () => {
