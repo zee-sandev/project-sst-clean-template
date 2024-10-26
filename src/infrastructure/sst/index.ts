@@ -1,6 +1,7 @@
 import setupCognito from './cognito/cognito.infra'
 import WebApp from './webApp/nextApp.infra'
 import setupApiGateway from './apiGateway/index'
+import setupDynamoDB from './database/dynamodb'
 import {
   TCognitoOutput,
   TWebAppOutput,
@@ -17,7 +18,7 @@ async function outputCognito(region: string): Promise<TCognitoOutput> {
     userPoolConfig
   } = await setupCognito(region)
   const [poolId, clientId, clientSecret, poolDomain, identityPoolId] =
-    await asyncAllGetUtilOutput([
+    await asyncAllGetUtilOutput<string>([
       userPoolInstance.id,
       userPoolWebClient.id,
       userPoolWebClient.secret,
@@ -27,6 +28,7 @@ async function outputCognito(region: string): Promise<TCognitoOutput> {
 
   const cognitoIssuer = `https://cognito-idp.${region}.amazonaws.com/${poolId}`
   const authDomain = `${poolDomain}.auth.${region}.amazoncognito.com`
+
   return {
     userPoolInstance,
     identityPoolInstance: cognitoIdentityPool,
@@ -107,6 +109,8 @@ async function outputApi(
 
 export default async function setupSST(): Promise<TSetupSSTReturn> {
   const region = await asyncGetUtilOutput(aws.getRegionOutput().name)
+
+  const dynamoDB = await setupDynamoDB()
   const cognitoOutput = await outputCognito(region)
   const apiOutput = await outputApi(
     cognitoOutput.cognitoIssuer,
@@ -122,6 +126,7 @@ export default async function setupSST(): Promise<TSetupSSTReturn> {
     userPoolWebClientSecret: cognitoOutput.userPoolWebClient.secret,
     userPoolDomain: cognitoOutput.poolDomain,
     issuer: cognitoOutput.cognitoIssuer,
-    cognitoDomain: cognitoOutput.authDomain
+    cognitoDomain: cognitoOutput.authDomain,
+    database: dynamoDB.instance.name
   }
 }
