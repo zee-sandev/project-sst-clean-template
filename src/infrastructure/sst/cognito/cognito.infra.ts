@@ -91,7 +91,6 @@ export default async function setupCognito(region: string) {
     oauthScopes: userPool.oauthScopes || [],
     oauthFlows: userPool.oauthFlows || []
   }
-
   return {
     userPoolInstance,
     userPoolWebClient,

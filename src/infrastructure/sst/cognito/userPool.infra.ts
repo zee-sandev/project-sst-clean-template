@@ -3,7 +3,7 @@ import {
   CognitoIdentityProviderClient,
   DescribeUserPoolDomainCommand
 } from '@aws-sdk/client-cognito-identity-provider'
-import { CognitoUserPoolClient } from '@/.sst/platform/src/components/aws/cognito-user-pool-client'
+import { CognitoUserPoolClient } from '@root/.sst/platform/src/components/aws/cognito-user-pool-client'
 
 export default class UserPool {
   private _userPool!: sst.aws.CognitoUserPool

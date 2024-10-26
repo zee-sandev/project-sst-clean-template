@@ -1,4 +1,4 @@
-import { CognitoUserPoolClient } from '@/.sst/platform/src/components/aws/cognito-user-pool-client'
+import { CognitoUserPoolClient } from '@root/.sst/platform/src/components/aws/cognito-user-pool-client'
 import { UserPoolConfig } from '../cognito/types/userPool.type'
 import WebApp from '../webApp/nextApp.infra'
 
@@ -12,6 +12,7 @@ export type TSetupSSTReturn = {
   userPoolDomain: string
   issuer: string
   cognitoDomain: string
+  database: $util.Output<string>
 }
 
 export type TCognitoOutput = {
