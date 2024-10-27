@@ -1,5 +1,8 @@
+import { Input } from '@root/.sst/platform/src/components/input'
+
 export default interface ILinkable {
-  links: sst.Linkable<Record<string, any>>[]
+  _links: sst.Linkable<Record<string, any>>[]
+  _SSTLinks: Input<any[]>[]
 
   addLinkable: (
     linkName: string,
@@ -11,4 +14,7 @@ export default interface ILinkable {
       permissions?: sst.aws.FunctionPermissionArgs[]
     }
   ) => sst.Linkable<Record<string, any>>
+
+  addSSTLinkable: (linkable: Input<any>) => void
+  getLinks: () => (sst.Linkable<Record<string, any>> | Input<any[]>)[]
 }

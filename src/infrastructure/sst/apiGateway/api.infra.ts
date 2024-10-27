@@ -1,10 +1,11 @@
+import Linkable from '@root/infrastructure/sst/interfaces/linkable/linkable.abstract'
 import { TMethod } from './types/method.type'
 
-class APIGateway {
+class APIGateway extends Linkable {
   private _api: sst.aws.ApiGatewayV2
-  private _links: sst.Linkable<Record<string, any>>[] = []
 
   constructor(name: string, options: sst.aws.ApiGatewayV2Args) {
+    super()
     this._api = new sst.aws.ApiGatewayV2(name, options)
   }
 
@@ -16,7 +17,7 @@ class APIGateway {
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
     const handlerOptions: sst.aws.FunctionArgs = {
-      link: this._links,
+      link: this.getLinks(),
       handler: handler
     }
     this._api.route(`${method} ${path}`, handlerOptions, auth)
@@ -68,36 +69,6 @@ class APIGateway {
     auth?: sst.aws.ApiGatewayV2RouteArgs
   ) {
     this.addRoute(`PATCH`, path, handler, auth)
-  }
-  //#endregion
-
-  //#region Handler Linkable
-  public addLinkable(
-    linkName: string,
-    {
-      properties,
-      permissions
-    }: {
-      properties: Record<string, any>
-      permissions?: sst.aws.FunctionPermissionArgs[]
-    }
-  ): sst.Linkable<Record<string, any>> {
-    const _permissions = permissions
-      ? permissions.map((perm) =>
-          sst.aws.permission({
-            actions: perm.actions,
-            resources: perm.resources
-          })
-        )
-      : []
-
-    const linkable = new sst.Linkable(linkName, {
-      properties,
-      ...(_permissions.length > 0 ? { include: _permissions } : {})
-    })
-
-    this._links.push(linkable)
-    return linkable
   }
   //#endregion
 

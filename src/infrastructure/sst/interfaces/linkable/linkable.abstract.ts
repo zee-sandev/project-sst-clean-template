@@ -1,7 +1,9 @@
+import { Input } from '@root/.sst/platform/src/components/input'
 import ILinkable from './linkable.interface'
 
 export default abstract class Linkable implements ILinkable {
-  links: sst.Linkable<Record<string, any>>[] = []
+  _links: sst.Linkable<Record<string, any>>[] = []
+  _SSTLinks: Input<any[]>[] = []
 
   addLinkable(
     linkName: string,
@@ -27,7 +29,15 @@ export default abstract class Linkable implements ILinkable {
       ...(_permissions.length > 0 ? { include: _permissions } : {})
     })
 
-    this.links.push(linkable)
+    this._links.push(linkable)
     return linkable
+  }
+
+  addSSTLinkable(linkable: Input<any>) {
+    this._SSTLinks.push(linkable)
+  }
+
+  getLinks(): (sst.Linkable<Record<string, any>> | Input<any[]>)[] {
+    return [...this._links, ...this._SSTLinks]
   }
 }

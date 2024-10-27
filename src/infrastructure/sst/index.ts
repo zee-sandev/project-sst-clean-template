@@ -96,9 +96,10 @@ async function outputWebApp(
 
 async function outputApi(
   issuer: string,
-  clientId: string
+  clientId: string,
+  databaseLinkable: any
 ): Promise<TApiOutput> {
-  const api = await setupApiGateway(issuer, clientId)
+  const api = await setupApiGateway(issuer, clientId, databaseLinkable)
   const apiInstance = api.apiInstance
   const apiUrl = await asyncGetUtilOutput(apiInstance.url)
   return {
@@ -111,10 +112,13 @@ export default async function setupSST(): Promise<TSetupSSTReturn> {
   const region = await asyncGetUtilOutput(aws.getRegionOutput().name)
 
   const dynamoDB = await setupDynamoDB()
+  const databaseLinkable = dynamoDB.instance
+
   const cognitoOutput = await outputCognito(region)
   const apiOutput = await outputApi(
     cognitoOutput.cognitoIssuer,
-    cognitoOutput.clientId
+    cognitoOutput.clientId,
+    databaseLinkable
   )
   const webAppOutput = await outputWebApp(cognitoOutput, apiOutput)
   return {

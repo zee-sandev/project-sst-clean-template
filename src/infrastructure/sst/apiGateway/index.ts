@@ -2,7 +2,8 @@ import APIGateway from './api.infra'
 
 export default async function setupApiGateway(
   issuer: string,
-  clientId: string
+  clientId: string,
+  databaseLinkable: any
 ) {
   const api = new APIGateway('api', {
     // cors: {
@@ -41,6 +42,7 @@ export default async function setupApiGateway(
       clientId: clientId
     }
   })
+  api.addSSTLinkable(databaseLinkable)
   //trpc routes
   api.get('/trpc/{proxy+}', 'src/adapters/handlers/trpc.handler')
   api.post('/trpc/{proxy+}', 'src/adapters/handlers/trpc.handler')
