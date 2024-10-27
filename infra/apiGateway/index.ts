@@ -1,4 +1,4 @@
-import { TApiOutput } from '../types/output.type'
+import { TApiOutput } from '@root/infra/types/output.type'
 import APIGateway from './api.infra'
 
 export default async function initApiGateway(

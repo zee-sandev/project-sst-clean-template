@@ -1,4 +1,8 @@
-import { TApiOutput, TCognitoOutput, TWebAppOutput } from '../types/output.type'
+import {
+  TApiOutput,
+  TCognitoOutput,
+  TWebAppOutput
+} from '@root/infra/types/output.type'
 import WebApp from './nextApp.infra'
 
 export default async function initApp(

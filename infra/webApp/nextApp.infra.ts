@@ -1,3 +1,5 @@
+import Linkable from '@root/infra/interfaces/linkable/linkable.abstract'
+
 class WebApp {
   private _links: sst.Linkable<Record<string, any>>[] = []
   private _environment: Record<string, any> = {}

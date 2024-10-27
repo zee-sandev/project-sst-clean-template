@@ -1,4 +1,4 @@
-import { TCognitoOutput } from '../types/output.type'
+import { TCognitoOutput } from '@root/infra/types/output.type'
 import setupCognito from './cognito.infra'
 
 export default async function initCognito(
