@@ -7,10 +7,13 @@ import JwtProvider from '@root/infrastructure/providers/jwt/jwt.provider'
 
 import { ElectroConfiguration } from '@root/infrastructure/data/drivers/electrodb.client'
 import ExampleEntity from '@root/infrastructure/data/entities/example.entity'
+import { IExampleRepository } from '@root/src/adapters/repositories/example/example.interface'
+import ExampleRepository from '../../data/repositories/example/example.repo'
 
 // Define some types
 const TYPES = {
-  ElectroConfig: Symbol.for('ElectroConfig')
+  ElectroConfig: Symbol.for('ElectroConfig'),
+  IExampleRepository: Symbol.for('IExampleRepository')
 }
 
 const container = new Container()
@@ -21,8 +24,14 @@ container.bind<JwtProvider>(JwtProvider).toSelf().inSingletonScope()
 
 // Data
 container
-  .bind<EntityConfiguration>(TYPES.ElectroConfig)
+  .bind<EntityConfiguration>('ElectroConfig')
   .toConstantValue(ElectroConfiguration)
 container.bind<ExampleEntity>(ExampleEntity).toSelf().inSingletonScope()
+
+//Repositories
+container
+  .bind<IExampleRepository>('ExampleRepository')
+  .to(ExampleRepository)
+  .inSingletonScope()
 
 export { container }

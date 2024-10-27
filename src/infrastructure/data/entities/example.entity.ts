@@ -31,6 +31,10 @@ export default class ExampleEntity {
       pk: {
         field: 'pk',
         composite: ['name']
+      },
+      sk: {
+        field: 'sk',
+        composite: ['createDate']
       }
     }
   }
