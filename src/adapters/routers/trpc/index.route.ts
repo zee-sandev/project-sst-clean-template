@@ -1,8 +1,5 @@
-// const trpcService = $appContainer.get<TRPCService>(TYPES.TRPCService)
-
-import { helloSchema } from '@root/adapters/validations/example/hello.schema'
-import { helloController } from '@root/adapters/controllers/example/hello.controller'
 import { privateRouter } from './private.route'
+import { publicRouter } from './public.router'
 
 const t = global.DIContainer.$appServices.TRPCService.TrpcInstance
 
@@ -10,7 +7,7 @@ if (!t) {
   throw new Error('TRPCService is not initialized')
 }
 const mainRouter = t.router({
-  hello: t.procedure.input(helloSchema).query(helloController),
+  public: publicRouter,
   private: privateRouter
 })
 
