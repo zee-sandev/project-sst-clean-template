@@ -1,4 +1,4 @@
-import Linkable from '@root/infrastructure/sst/interfaces/linkable/linkable.abstract'
+import Linkable from '@root/infra/interfaces/linkable/linkable.abstract'
 
 class DynamoDB extends Linkable {
   private _dynamo: sst.aws.Dynamo

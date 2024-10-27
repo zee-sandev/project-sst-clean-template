@@ -1,7 +1,7 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 import '@root/src/core/types/global'
 
-import setupSST from '@root/infrastructure/sst'
+import setupSST from '@root/infra'
 
 export default $config({
   app(input) {

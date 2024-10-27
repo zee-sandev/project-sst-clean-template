@@ -1,4 +1,4 @@
-import Linkable from '@root/infrastructure/sst/interfaces/linkable/linkable.abstract'
+import Linkable from '@root/infra/interfaces/linkable/linkable.abstract'
 import { TMethod } from './types/method.type'
 
 class APIGateway extends Linkable {
