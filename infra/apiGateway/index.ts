@@ -1,10 +1,11 @@
+import { TApiOutput } from '../types/output.type'
 import APIGateway from './api.infra'
 
-export default async function setupApiGateway(
+export default async function initApiGateway(
   issuer: string,
   clientId: string,
   databaseLinkable: any
-) {
+): Promise<TApiOutput> {
   const api = new APIGateway('api', {
     // cors: {
     //   allowCredentials: true,
@@ -57,5 +58,9 @@ export default async function setupApiGateway(
     authOptions
   )*/
 
-  return { apiInstance }
+  //#region output
+  const apiUrl = await asyncGetUtilOutput(apiInstance.url)
+  //#endregion
+
+  return { apiInstance, apiUrl }
 }

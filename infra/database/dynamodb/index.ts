@@ -1,6 +1,6 @@
 import DynamoDB from './dynamodb.infra'
 
-export default function setupDynamoDB() {
+export default function initDynamoDB() {
   const options: sst.aws.DynamoArgs = {
     fields: {
       pk: 'string',
