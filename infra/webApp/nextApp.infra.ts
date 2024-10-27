@@ -1,7 +1,6 @@
 import Linkable from '@root/infra/interfaces/linkable/linkable.abstract'
 
-class WebApp {
-  private _links: sst.Linkable<Record<string, any>>[] = []
+class WebApp extends Linkable {
   private _environment: Record<string, any> = {}
   private _domainName: string = 'localhost'
   private _domainConfig: sst.aws.NextjsArgs['domain'] = {
@@ -9,7 +8,9 @@ class WebApp {
   }
   private _port: number = 9000
   private _path: string = 'web'
-  constructor() {}
+  constructor() {
+    super()
+  }
 
   public set domainName(domainName: string) {
     this._domainName = domainName
@@ -27,31 +28,6 @@ class WebApp {
     this._path = path
   }
 
-  public addLinkable(
-    linkName: string,
-    {
-      properties,
-      permissions
-    }: {
-      properties: Record<string, any>
-      permissions: sst.aws.FunctionPermissionArgs[]
-    }
-  ) {
-    const _permissions = permissions.map((perm) =>
-      sst.aws.permission({
-        actions: perm.actions,
-        resources: perm.resources
-      })
-    )
-
-    const linkable = new sst.Linkable(linkName, {
-      properties,
-      ...(_permissions.length > 0 ? { include: _permissions } : {})
-    })
-
-    this._links.push(linkable)
-  }
-
   public setEnvironment(environment: Record<string, any>) {
     this._environment = environment
   }
@@ -59,7 +35,7 @@ class WebApp {
   public listen() {
     const app = new sst.aws.Nextjs('web', {
       path: this._path,
-      link: this._links,
+      link: this.getLinks(),
       domain: $dev ? undefined : this._domainConfig,
       dev: {
         url: this._domainName,

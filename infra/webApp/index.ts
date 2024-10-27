@@ -16,7 +16,7 @@ export default async function initApp(
     PROD_DOMAIN,
     PROD_DOMAIN_CONFIG,
     PROD_PORT
-  } = await import('../config/web.config')
+  } = await import('@root/infra/config/web.config')
   const webInstance = new WebApp()
   webInstance.domainName = $dev ? LOCAL_DOMAIN_FULL : PROD_DOMAIN
   webInstance.domainConfig = PROD_DOMAIN_CONFIG
@@ -27,10 +27,12 @@ export default async function initApp(
     'NEXTAUTH_SECRET',
     cognitoOutput.clientSecret
   )
+
   webInstance.setEnvironment({
     NEXTAUTH_SECRET: nextAuthSecret.value,
     API_URL: apiOutput.apiUrl
   })
+
   webInstance.addLinkable('AWS', {
     properties: {
       COGNITO_POOL_ID: cognitoOutput.poolId,
@@ -44,8 +46,7 @@ export default async function initApp(
       OAUTH_LOGOUT_URL: cognitoOutput.userPoolConfig.oauthLogoutUrl.join(','),
       OAUTH_SCOPES: cognitoOutput.userPoolConfig.oauthScopes.join(','),
       OAUTH_FLOWS: cognitoOutput.userPoolConfig.oauthFlows.join(',')
-    },
-    permissions: []
+    }
   })
   const web = webInstance.listen()
   return {
