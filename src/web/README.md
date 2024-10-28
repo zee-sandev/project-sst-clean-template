@@ -35,25 +35,18 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
-### Folder description
+### Libraries Available for Removal
 
-/src
---/app // App Router directory for routing
-----/api // API routes (server-side functions)
-----/components // Shared components
-------/specific // Components specific to certain pages
-------/shared // Shared components
-----/layout // Layout components for consistent UI
-----/page.tsx // Root page component
-----/global.css // Global styles
-----/styles // Component-specific styles
-----/utils // Utility functions
-----/hooks // Custom hooks
-----/context // Context providers
-----/services // API service functions
-----/middleware // Middleware functions
---/public // Static assets (images, fonts, etc.)
---/tests // Test files
---/types // TypeScript types/interfaces
---/config // Configuration files (e.g., environment variables)
---/lib // Library functions or third-party integrations
+The following libraries can be safely removed from your project if they are not being utilized:
+
+- `@radix-ui/react-icons`
+- `@radix-ui/react-label`
+- `@radix-ui/react-separator`
+- `@radix-ui/react-slot`
+- `@radix-ui/react-tabs`
+- `class-variance-authority`
+- `lucide-react`
+
+```
+pnpm remove @radix-ui/react-icons @radix-ui/react-label @radix-ui/react-separator @radix-ui/react-slot @radix-ui/react-tabs class-variance-authority lucide-react
+```
