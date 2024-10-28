@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import AccountComponent from '@/components/auth/account.comp'
+import AccountComponent from '@/components/account/account.comp'
 
 export default function Home() {
   return (
