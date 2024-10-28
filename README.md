@@ -49,3 +49,10 @@ sudo yum install jq
 #### For Windows:
 
 Download the jq executable from the official jq releases page. After downloading, you can add the directory containing jq.exe to your system's PATH.
+
+### Secret Setup
+
+```
+sst set secret GoogleClientId <your-google-client-id>
+sst set secret GoogleClientSecret <your-google-client-secret>
+```
