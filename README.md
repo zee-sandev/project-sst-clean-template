@@ -53,6 +53,13 @@ Download the jq executable from the official jq releases page. After downloading
 ### Secret Setup
 
 ```
-sst set secret GoogleClientId <your-google-client-id>
-sst set secret GoogleClientSecret <your-google-client-secret>
+sst secret set GoogleClientId <your-google-client-id>
+sst secret set GoogleClientSecret <your-google-client-secret>
+```
+
+### Install Playwright
+
+```
+cd src/web
+npx playwright install
 ```
