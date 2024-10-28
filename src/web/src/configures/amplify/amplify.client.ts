@@ -1,6 +1,6 @@
 'use client'
 import { Amplify } from 'aws-amplify'
-import { amplifyConfig } from '@/configures/amplify'
+import { amplifyConfig } from '@/configures/amplify/amplify.config'
 
 if (amplifyConfig) {
   Amplify.configure(

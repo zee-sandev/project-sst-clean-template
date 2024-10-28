@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import AmplifyConfigClientSide from './amplify/cognito.config'
+import AmplifyConfigClientSide from '../configures/amplify/amplify.client'
 const inter = Inter({ subsets: ['latin'] })
 import { TRPCProvider } from '@/lib/providers/trpc.provider'
 
