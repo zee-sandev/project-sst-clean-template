@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import gmail from 'gmail-tester'
-import GmailConfig from './gmail/config'
-import { generatePassword } from '../utils/password.util'
+import GmailConfig from '../gmail/config'
+import { generatePassword } from '../../utils/password.util'
 
 test.describe.configure({ mode: 'serial' })
 test.describe('Authentication by Cognito', () => {

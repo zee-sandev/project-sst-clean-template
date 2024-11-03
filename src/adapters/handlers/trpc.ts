@@ -1,6 +1,5 @@
 import { awsLambdaRequestHandler } from '@trpc/server/adapters/aws-lambda'
 import { createContext } from '@root/infrastructure/providers/trpc/context'
-import 'reflect-metadata'
 import '@root/core/types/global'
 import '@root/src/infrastructure/di/inversify/index'
 

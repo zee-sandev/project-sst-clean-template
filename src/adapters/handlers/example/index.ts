@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import '@root/core/types/global'
 import '@root/src/infrastructure/di/inversify/index'
 

@@ -1,4 +1,5 @@
 /// <reference path="./container.d.ts" />
+import 'reflect-metadata'
 import TRPCService from '@root/infrastructure/providers/trpc'
 import { container } from './inversify.config'
 import JwtProvider from '@root/infrastructure/providers/jwt/jwt.provider'

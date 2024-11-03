@@ -1,5 +1,5 @@
 import { helloController } from '../hello.controller'
-import { describe, it, expect } from '@jest/globals'
+import { describe, it, expect } from 'vitest'
 
 describe('helloController', () => {
   it('should return a greeting message', () => {
